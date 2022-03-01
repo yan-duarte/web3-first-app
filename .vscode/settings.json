@@ -3,4 +3,5 @@
     "glassmorphism"
   ],
   "prettier.printWidth": 160
+  "editor.tabSize": 2
 }
