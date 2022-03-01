@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
+    "Gifs",
+    "GIPHY",
     "glassmorphism"
   ],
-  "prettier.printWidth": 160
+  "prettier.printWidth": 160,
   "editor.tabSize": 2
 }

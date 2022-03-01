@@ -1,10 +1,10 @@
-import React, { FC, InputHTMLAttributes, ChangeEvent, useContext, MouseEventHandler } from "react";
-import { AiFillPlayCircle } from "react-icons/ai";
+import React, { FC, InputHTMLAttributes, ChangeEvent, useContext } from "react";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 import { TransactionContext } from "../context/TransactionContext";
 
 import { Loader } from "./";
+import { shortenAddress } from "../utils/shortenAddress";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   handleChange: (e: ChangeEvent<HTMLInputElement>, name?: string) => void;
@@ -24,14 +24,13 @@ const Input: FC<InputProps> = ({ placeholder, name, type, value, handleChange })
 );
 
 const Welcome = () => {
-  const { connectWallet, currentAccount, handleChange, formData, sendTransaction } = useContext(TransactionContext);
- 
-  
+  const { connectWallet, currentAccount, handleChange, formData, sendTransaction, isLoading } = useContext(TransactionContext);
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { addressTo, amount, keyword, message} = formData;
+    const { addressTo, amount, keyword, message } = formData;
     e.preventDefault();
 
-    if(!addressTo || !amount || !keyword || !message) return;
+    if (!addressTo || !amount || !keyword || !message) return;
     sendTransaction();
   };
 
@@ -76,7 +75,7 @@ const Welcome = () => {
                 <BsInfoCircle fontSize={17} color="#fff" />
               </div>
               <div>
-                <p className="text-white font-light text-sm">{!!currentAccount && currentAccount}</p>
+                <p className="text-white font-light text-sm">{!!currentAccount && shortenAddress(currentAccount)}</p>
                 <p className="text-white font-semibold text-lg mt-1">Ethereum</p>
               </div>
             </div>
@@ -89,7 +88,7 @@ const Welcome = () => {
             <Input placeholder="Enter Message" name="message" type="text" handleChange={handleChange} />
 
             <div className="h-[1px] w-full bg-gray-400 my-2" />
-            {false ? ( // TODO: Create loader state
+            {isLoading ? (
               <Loader />
             ) : (
               <button
